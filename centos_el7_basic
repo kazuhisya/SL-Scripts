@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Time zone
+rm -f /etc/localtime
+ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+
+# Yum
+## Utility
+yum install -y \
+    bash-completion \
+    bind-utils \
+    lsof \
+    net-tools \
+    sos \
+    sysstat
+## Editor
+yum install -y \
+    vim-enhanced
+
