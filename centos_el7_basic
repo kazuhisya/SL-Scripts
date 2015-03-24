@@ -5,8 +5,9 @@ sed -i 's/^PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_
 systemctl restart sshd.service
 
 # Time zone
-rm -f /etc/localtime
-ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+/bin/cp -p /usr/share/zoneinfo/Japan /etc/localtime
+echo 'ZONE="Asia/Tokyo"' > /etc/sysconfig/clock
+echo 'UTC=false' >> /etc/sysconfig/clock
 
 # Yum
 ## Utility
