@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# ssh disable password authentication
+sed -i 's/^PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+systemctl restart sshd.service
+
+# Time zone
+/bin/cp -p /usr/share/zoneinfo/Japan /etc/localtime
+echo 'ZONE="Asia/Tokyo"' > /etc/sysconfig/clock
+echo 'UTC=false' >> /etc/sysconfig/clock
+
+# Yum
+## Utility
+yum install -y \
+    bash-completion \
+    bind-utils \
+    lsof \
+    net-tools \
+    screen \
+    sos \
+    sysstat
+## Editor
+yum install -y \
+    vim-enhanced
+
+
+cat << EOF | tee /etc/yum.repos.d/nginx-mainline.repo > /dev/null
+[nginx-mainline]
+name=nginx mainline repo
+baseurl=http://nginx.org/packages/mainline/centos/$releasever/$basearch/
+gpgcheck=0
+enabled=1
+EOF
+
+## Nginx and AB tools
+yum install -y nginx httpd-tools
+
+## Service Enable and Start
+systemctl enable nginx.service
+systemctl start nginx.service
