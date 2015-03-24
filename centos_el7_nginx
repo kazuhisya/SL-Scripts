@@ -23,7 +23,7 @@ yum install -y \
 yum install -y \
     vim-enhanced
 
-
+## Nginx Repository
 cat << EOF | tee /etc/yum.repos.d/nginx-mainline.repo > /dev/null
 [nginx-mainline]
 name=nginx mainline repo
@@ -32,7 +32,7 @@ gpgcheck=0
 enabled=1
 EOF
 
-## Nginx and AB tools
+## Install Nginx and AB tools
 yum install -y nginx httpd-tools
 
 ## Service Enable and Start
