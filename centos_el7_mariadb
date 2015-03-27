@@ -25,6 +25,11 @@ yum install -y \
 ## MariaDB
 yum install -y mariadb mariadb-server
 
+## mariadb settings
+mv /etc/my.cnf /tmp/my.cnf
+curl -OL https://raw.githubusercontent.com/kazuhisya/SL-Scripts/master/conf/mariadb-my.cnf
+mv mariadb-my.cnf /etc/my.cnf
+
 ## Service Enable and Start
 systemctl enable mariadb.service
 systemctl start mariadb.service
