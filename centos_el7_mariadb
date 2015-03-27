@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# ssh disable password authentication
+sed -i 's/^PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+systemctl restart sshd.service
+
+# Time zone
+/bin/cp -p /usr/share/zoneinfo/Japan /etc/localtime
+echo 'ZONE="Asia/Tokyo"' > /etc/sysconfig/clock
+echo 'UTC=false' >> /etc/sysconfig/clock
+
+# Yum
+## Utility
+yum install -y \
+    bash-completion \
+    bind-utils \
+    lsof \
+    net-tools \
+    screen \
+    sos \
+    sysstat
+## Editor
+yum install -y \
+    vim-enhanced
+## MariaDB
+yum install -y mariadb mariadb-server
+
+## Service Enable and Start
+systemctl enable mariadb.service
+systemctl start mariadb.service
+
+## mysql_secure_installation
+PASS=`date +%s | sha256sum | base64 | head -c 32`
+echo $PASS > /root/db_password.txt
+
+/usr/bin/mysqladmin drop test -f
+/usr/bin/mysql -e "DELETE FROM mysql.user WHERE User = '';" -D mysql
+/usr/bin/mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');" -D mysql
+/usr/bin/mysql -e "SET PASSWORD FOR 'root'@'::1' = PASSWORD('${PASS}');" -D mysql
+/usr/bin/mysql -e "SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('${PASS}');" -D mysql
+/usr/bin/mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${PASS}');" -D mysql
+/usr/bin/mysqladmin flush-privileges -p${PASS}
+
