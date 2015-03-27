@@ -39,5 +39,9 @@ echo $PASS > /root/db_password.txt
 /usr/bin/mysql -e "SET PASSWORD FOR 'root'@'::1' = PASSWORD('${PASS}');" -D mysql
 /usr/bin/mysql -e "SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('${PASS}');" -D mysql
 /usr/bin/mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${PASS}');" -D mysql
+
+## Create WordPress DB
+/usr/bin/mysql -e "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8;" -D mysql
+/usr/bin/mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO wordpress@'%' IDENTIFIED BY '${PASS}';" -D mysql
 /usr/bin/mysqladmin flush-privileges -p${PASS}
 
