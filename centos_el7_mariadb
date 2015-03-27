@@ -29,14 +29,15 @@ yum install -y mariadb mariadb-server
 systemctl enable mariadb.service
 systemctl start mariadb.service
 
+## create mariadb password
+PASS=`date +%s | sha256sum | base64 | head -c 32`
+echo $PASS > /root/db_password.txt
+
 ## Create WordPress DB
 /usr/bin/mysql -e "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8;" -D mysql
 /usr/bin/mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO wordpress@'%' IDENTIFIED BY '${PASS}';" -D mysql
 
 ## mysql_secure_installation
-PASS=`date +%s | sha256sum | base64 | head -c 32`
-echo $PASS > /root/db_password.txt
-
 /usr/bin/mysqladmin drop test -f
 /usr/bin/mysql -e "DELETE FROM mysql.user WHERE User = '';" -D mysql
 /usr/bin/mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');" -D mysql
