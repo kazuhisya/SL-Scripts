@@ -16,7 +16,6 @@ yum install -y \
     bind-utils \
     lsof \
     net-tools \
-    nfs-utils \
     php php-fpm php-mbstring php-mysql \
     screen \
     sos \
@@ -59,9 +58,7 @@ mv nginx-wp-default.conf /etc/nginx/conf.d/default.conf
 ## Get WordPress
 curl -OL https://ja.wordpress.org/latest-ja.tar.gz
 tar -zxvf latest-ja.tar.gz
-
-## mk NFS mount point
-mkdir -p /nfs
+mv wordpress /var/www/
 
 ## Service Enable and Start
 systemctl enable php-fpm.service
