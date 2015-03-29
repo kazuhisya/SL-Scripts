@@ -39,7 +39,7 @@ echo 'net.ipv4.tcp_tw_reuse = 1' >> /etc/sysctl.conf
 echo 'net.ipv4.tcp_max_syn_backlog = 100000' >> /etc/sysctl.conf
 echo 'net.netfilter.nf_conntrack_max = 100000' >> /etc/sysctl.conf
 echo 'net.nf_conntrack_max = 100000' >> /etc/sysctl.conf
-echo 'fs.file-max = 320000'
+echo 'fs.file-max = 320000' >> /etc/sysctl.conf
 sysctl -p
 
 ## Install Nginx and AB tools
