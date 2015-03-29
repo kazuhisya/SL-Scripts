@@ -59,6 +59,7 @@ mv nginx-wp-default.conf /etc/nginx/conf.d/default.conf
 curl -OL https://ja.wordpress.org/latest-ja.tar.gz
 tar -zxvf latest-ja.tar.gz
 mv wordpress /var/www/
+chown -R nginx:nginx /var/www/wordpress
 
 ## Service Enable and Start
 systemctl enable php-fpm.service
