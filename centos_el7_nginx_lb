@@ -18,7 +18,8 @@ yum install -y \
     net-tools \
     screen \
     sos \
-    sysstat
+    sysstat \
+    tree
 ## Editor
 yum install -y \
     vim-enhanced
