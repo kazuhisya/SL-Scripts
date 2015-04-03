@@ -34,6 +34,7 @@ EOF
 
 ## Install Nginx and AB tools
 yum install -y nginx httpd-tools
+sed -i 's/worker_processes  1;/worker_processes  auto;/' /etc/nginx/nginx.conf
 
 ## Service Enable and Start
 systemctl enable nginx.service
